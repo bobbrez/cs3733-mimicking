@@ -9,7 +9,6 @@ public class Client implements IHTCPCPClient {
 	
 	@Override
 	public Response send(Request request) {
-		// Not yet implemented
-		return null;
+		throw new UnsupportedOperationException();
 	}
 }

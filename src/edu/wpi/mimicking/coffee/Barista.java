@@ -1,6 +1,7 @@
 package edu.wpi.mimicking.coffee;
 
 import edu.wpi.mimicking.coffee.fakes.FakeClient;
+import edu.wpi.mimicking.htcpcp.Client;
 import edu.wpi.mimicking.htcpcp.IHTCPCPClient;
 import edu.wpi.mimicking.htcpcp.Request;
 import edu.wpi.mimicking.htcpcp.Response;
@@ -11,7 +12,11 @@ public class Barista {
 	
 	public Barista(String name, String host) {
 		this.name = name;
-		this.client = new FakeClient(host);
+		if(isTestMode()) {
+			this.client = new FakeClient(host);
+		} else {
+			this.client = new Client(host);
+		}
 	}
 	
 	public String welcomeMessage(String customerName) {
@@ -20,5 +25,9 @@ public class Barista {
 	
 	public Response sendRequest(Request request) {
 		return client.send(request);
+	}
+	
+	private boolean isTestMode() {
+		return System.getenv("mode") != null && System.getenv("mode").equals("TEST");
 	}
 }

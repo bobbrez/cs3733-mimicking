@@ -9,7 +9,7 @@ import edu.wpi.mimicking.htcpcp.Response;
 
 public class BaristaTest {
 	/** 
-	 * Fake Example 1
+	 * Fake Example 2
 	 **/
 	@Test
 	public void testWelcomeCustomer() {
