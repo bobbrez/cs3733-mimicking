@@ -9,7 +9,7 @@ import edu.wpi.mimicking.htcpcp.Response;
 
 public class BaristaTest {
 	/** 
-	 * Fake Example 2
+	 * Stub Example 1
 	 **/
 	@Test
 	public void testWelcomeCustomer() {
@@ -27,7 +27,7 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestOk() {
 		// Setup
-		Barista barista = new Barista("Marty", "accepted");
+		Barista barista = new Barista("Marty", "202|Brewing.");
 		
 		Request request = new Request();
 		request.add("Cream");
@@ -44,7 +44,7 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestCreated() {
 		// Setup
-		Barista barista = new Barista("Marty", "created");
+		Barista barista = new Barista("Marty", "201|Poured and ready.");
 		
 		Request request = new Request();
 		request.add("Cream");
@@ -61,7 +61,7 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestNotFound() {
 		// Setup
-		Barista barista = new Barista("Marty", "error");
+		Barista barista = new Barista("Marty", "404|Not Found.");
 		
 		Request request = new Request();
 		request.add("Cream");

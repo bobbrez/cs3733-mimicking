@@ -1,6 +1,6 @@
 package edu.wpi.mimicking.coffee;
 
-import edu.wpi.mimicking.coffee.fakes.FakeClient;
+import edu.wpi.mimicking.coffee.stubs.StubClient;
 import edu.wpi.mimicking.htcpcp.Client;
 import edu.wpi.mimicking.htcpcp.IHTCPCPClient;
 import edu.wpi.mimicking.htcpcp.Request;
@@ -13,7 +13,7 @@ public class Barista {
 	public Barista(String name, String host) {
 		this.name = name;
 		if(isTestMode()) {
-			this.client = new FakeClient(host);
+			this.client = new StubClient(host);
 		} else {
 			this.client = new Client(host);
 		}
