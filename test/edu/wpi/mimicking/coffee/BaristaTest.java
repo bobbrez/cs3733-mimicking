@@ -1,6 +1,7 @@
 package edu.wpi.mimicking.coffee;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.*;
 
 import org.junit.Test;
 
@@ -8,6 +9,7 @@ import edu.wpi.mimicking.coffee.stubs.AcceptedResponse;
 import edu.wpi.mimicking.coffee.stubs.CreatedResponse;
 import edu.wpi.mimicking.coffee.stubs.NotFoundResponse;
 import edu.wpi.mimicking.coffee.stubs.StubClient;
+import edu.wpi.mimicking.htcpcp.Client;
 import edu.wpi.mimicking.htcpcp.Request;
 import edu.wpi.mimicking.htcpcp.Response;
 
@@ -31,54 +33,75 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestOk() {
 		// Setup
-		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
-		((StubClient)barista.client()).setResponse(new AcceptedResponse());
-		
 		Request request = new Request();
 		request.add("Cream");
 		request.add("Sugar");
 		
+		Response expectedResponse = new Response(202, "Brewing.");
+		
+		Client mockClient = mock(Client.class);
+		when(mockClient.send(request)).thenReturn(expectedResponse);
+		
+		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
+		barista.setClient(mockClient);
+		
 		// Execute
-		Response response = barista.sendRequest(request);
+		Response actualResponse = barista.sendRequest(request);
 		
 		// Verify
-		assertEquals(202, response.getStatus());
-		assertEquals("Brewing.", response.getMessage());
+		assertEquals(202, actualResponse.getStatus());
+		assertEquals("Brewing.", actualResponse.getMessage());
+		
+		verify(mockClient).send(request);
 	}
 	
 	@Test
-	public void testSendRequestCreated() {
+	public void testSendRequestCreated() {		
 		// Setup
-		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
-		((StubClient)barista.client()).setResponse(new CreatedResponse());
-		
 		Request request = new Request();
 		request.add("Cream");
 		request.add("Sugar");
 		
+		Response expectedResponse = new Response(201, "Poured and ready.");
+		
+		Client mockClient = mock(Client.class);
+		when(mockClient.send(request)).thenReturn(expectedResponse);
+		
+		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
+		barista.setClient(mockClient);
+		
 		// Execute
-		Response response = barista.sendRequest(request);
+		Response actualResponse = barista.sendRequest(request);
 		
 		// Verify
-		assertEquals(201, response.getStatus());
-		assertEquals("Poured and ready.", response.getMessage());
+		assertEquals(201, actualResponse.getStatus());
+		assertEquals("Poured and ready.", actualResponse.getMessage());
+		
+		verify(mockClient).send(request);
 	}
 	
 	@Test
 	public void testSendRequestNotFound() {
 		// Setup
-		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
-		((StubClient)barista.client()).setResponse(new NotFoundResponse());
-		
 		Request request = new Request();
 		request.add("Cream");
 		request.add("Sugar");
 		
+		Response expectedResponse = new Response(404, "Not Found.");
+		
+		Client mockClient = mock(Client.class);
+		when(mockClient.send(request)).thenReturn(expectedResponse);
+		
+		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
+		barista.setClient(mockClient);
+		
 		// Execute
-		Response response = barista.sendRequest(request);
+		Response actualResponse = barista.sendRequest(request);
 		
 		// Verify
-		assertEquals(404, response.getStatus());
-		assertEquals("Not Found.", response.getMessage());
+		assertEquals(404, actualResponse.getStatus());
+		assertEquals("Not Found.", actualResponse.getMessage());
+		
+		verify(mockClient).send(request);
 	}
 }
