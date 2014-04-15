@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
 
+import edu.wpi.mimicking.coffee.stubs.StubClient;
 import edu.wpi.mimicking.htcpcp.Request;
 import edu.wpi.mimicking.htcpcp.Response;
 
@@ -27,7 +28,9 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestOk() {
 		// Setup
-		Barista barista = new Barista("Marty", "202|Brewing.");
+		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
+		Response cannedResponse = new Response(202, "Brewing."); 
+		((StubClient)barista.client()).setResponse(cannedResponse);
 		
 		Request request = new Request();
 		request.add("Cream");
@@ -44,7 +47,9 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestCreated() {
 		// Setup
-		Barista barista = new Barista("Marty", "201|Poured and ready.");
+		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
+		Response cannedResponse = new Response(201, "Poured and ready."); 
+		((StubClient)barista.client()).setResponse(cannedResponse);
 		
 		Request request = new Request();
 		request.add("Cream");
@@ -61,7 +66,9 @@ public class BaristaTest {
 	@Test
 	public void testSendRequestNotFound() {
 		// Setup
-		Barista barista = new Barista("Marty", "404|Not Found.");
+		Barista barista = new Barista("Marty", "coffee://tiki.cs.wpi.edu");
+		Response cannedResponse = new Response(404, "Not Found."); 
+		((StubClient)barista.client()).setResponse(cannedResponse);
 		
 		Request request = new Request();
 		request.add("Cream");

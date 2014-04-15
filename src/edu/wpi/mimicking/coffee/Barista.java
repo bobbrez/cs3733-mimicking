@@ -27,6 +27,10 @@ public class Barista {
 		return client.send(request);
 	}
 	
+	public IHTCPCPClient client() {
+		return client;
+	}
+	
 	private boolean isTestMode() {
 		return System.getenv("mode") != null && System.getenv("mode").equals("TEST");
 	}
